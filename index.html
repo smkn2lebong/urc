@@ -1,122 +1,124 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Form Pengajuan BPJS</title>
+  <meta charset="UTF-8">
+  <title>Form Pengajuan BPJS URC Bengkulu</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f9ff; margin: 0; padding: 0; }
-    h2 { text-align: center; padding: 20px; background: #0066cc; color: white; margin: 0; }
-    .container { max-width: 700px; margin: 20px auto; padding: 15px; }
-    .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-    label { font-weight: bold; display: block; margin-top: 10px; }
-    input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
-    button { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
-    button:hover { background: #218838; }
-    img { max-width: 100%; margin-top: 10px; border: 2px solid #eee; border-radius: 5px; }
-    #status { margin-top: 15px; font-weight: bold; text-align: center; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    input[type="file"] {
+      padding: 5px;
+    }
+    button {
+      background: #2c7be5;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 20px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1a5fc1;
+    }
+    .preview {
+      margin-top: 10px;
+      max-height: 150px;
+    }
   </style>
 </head>
 <body>
-  <h2>Form Pengajuan Bantuan BPJS Rawat Inap</h2>
   <div class="container">
+    <h2>Form Pengajuan BPJS URC Bengkulu</h2>
     <form id="bpjsForm">
-      <div class="card">
-        <h3>Data Pasien</h3>
-        <label>Nama Pasien:<br/>
-          <input type="text" name="nama" required>
-        </label>
+      <label>Nama Pasien:</label>
+      <input type="text" name="nama" required>
 
-        <label>NIK Pasien:<br/>
-          <input type="text" name="nik" required>
-        </label>
+      <label>NIK (16 digit):</label>
+      <input type="text" name="nik" pattern="[0-9]{16}" maxlength="16"
+             oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
 
-        <label>No. KK:<br/>
-          <input type="text" name="kk" required>
-        </label>
+      <label>No. KK (16 digit):</label>
+      <input type="text" name="kk" pattern="[0-9]{16}" maxlength="16"
+             oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
 
-        <label>No. Telepon Pasien:<br/>
-          <input type="text" name="telp" required>
-        </label>
+      <label>Nomor HP yang bisa dihubungi:</label>
+      <input type="text" name="telp" pattern="[0-9]{10,13}" maxlength="13"
+             oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
 
-        <label>No. Telepon Keluarga:<br/>
-          <input type="text" name="telp_keluarga" required>
-        </label>
+      <label>Nomor HP keluarga yang bisa dihubungi:</label>
+      <input type="text" name="telp_keluarga" pattern="[0-9]{10,13}" maxlength="13"
+             oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
 
-        <label>Alamat:<br/>
-          <textarea name="alamat" required></textarea>
-        </label>
-      </div>
+      <label>Alamat:</label>
+      <textarea name="alamat" rows="3" required></textarea>
 
-      <div class="card">
-        <h3>Upload Dokumen</h3>
+      <label>Upload Surat Rawat Inap:</label>
+      <input type="file" name="surat_rawat_inap" accept="image/*,application/pdf" required>
 
-        <label>Foto Surat Rawat Inap:</label>
-        <input type="file" id="rawatInapInput" name="surat_rawat_inap" accept="image/*" capture="environment" required>
-        <img id="preview_rawat_inap" alt="Preview Surat Rawat Inap"/>
+      <label>Upload KTP Pasien:</label>
+      <input type="file" name="ktp" accept="image/*,application/pdf" required>
 
-        <label>Foto KTP Pasien:</label>
-        <input type="file" id="ktpInput" name="ktp" accept="image/*" capture="environment" required>
-        <img id="preview_ktp" alt="Preview KTP"/>
+      <label>Upload Kartu Keluarga:</label>
+      <input type="file" name="kk_dokumen" accept="image/*,application/pdf" required>
 
-        <label>Foto KK:</label>
-        <input type="file" id="kkInput" name="kk_dokumen" accept="image/*" capture="environment" required>
-        <img id="preview_kk" alt="Preview KK"/>
-
-        <label>Foto Surat Keterangan Tidak Mampu (SKTM):</label>
-        <input type="file" id="sktmInput" name="sktm" accept="image/*" capture="environment" required>
-        <img id="preview_sktm" alt="Preview SKTM"/>
-      </div>
+      <label>Upload Surat Keterangan Tidak Mampu:</label>
+      <input type="file" name="sktm" accept="image/*,application/pdf" required>
 
       <button type="submit">Kirim Pengajuan</button>
     </form>
-
     <p id="status"></p>
   </div>
 
   <script>
-    function setupPreview(inputId, previewId) {
-      const input = document.getElementById(inputId);
-      const preview = document.getElementById(previewId);
-      input.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-          preview.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxulq_XBGF4VTfpe6L_sucs27s7mjvM1zPMgoyi4TJmmjB7MlOVnt2KVh_bjVKEkntX/exec"; // ganti dengan URL Web App
 
-    setupPreview("rawatInapInput", "preview_rawat_inap");
-    setupPreview("ktpInput", "preview_ktp");
-    setupPreview("kkInput", "preview_kk");
-    setupPreview("sktmInput", "preview_sktm");
+    const form = document.getElementById("bpjsForm");
+    const status = document.getElementById("status");
 
-    document.getElementById("bpjsForm").addEventListener("submit", async (e) => {
+    form.addEventListener("submit", e => {
       e.preventDefault();
-      const status = document.getElementById("status");
-      status.textContent = "Mengirim data...";
+      const formData = new FormData(form);
 
-      const formData = new FormData(e.target);
-
-      try {
-        // Ganti dengan URL Web App Google Apps Script milikmu
-        const response = await fetch("PASTE_WEB_APP_URL_HERE", {
-          method: "POST",
-          body: formData
+      fetch(scriptURL, { method: "POST", body: formData })
+        .then(response => response.text())
+        .then(text => {
+          status.innerHTML = "<span style='color:green'>Berhasil dikirim!</span>";
+          form.reset();
+        })
+        .catch(error => {
+          status.innerHTML = "<span style='color:red'>Gagal: " + error + "</span>";
         });
-        if (response.ok) {
-          status.textContent = "Pengajuan berhasil dikirim ✅";
-          e.target.reset();
-          document.querySelectorAll("img").forEach(img => img.src = "");
-        } else {
-          status.textContent = "Gagal mengirim data ❌";
-        }
-      } catch (err) {
-        status.textContent = "Error: " + err.message;
-      }
     });
   </script>
 </body>
