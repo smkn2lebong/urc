@@ -5,76 +5,74 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Form Pengajuan BPJS</title>
   <style>
-    body { font-family: sans-serif; max-width: 700px; margin: 20px auto; }
-    input, textarea { width: 100%; margin: 8px 0; padding: 8px; }
-    button { padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer; }
+    body { font-family: Arial, sans-serif; background: #f5f9ff; margin: 0; padding: 0; }
+    h2 { text-align: center; padding: 20px; background: #0066cc; color: white; margin: 0; }
+    .container { max-width: 700px; margin: 20px auto; padding: 15px; }
+    .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+    input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; }
+    button { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
     button:hover { background: #218838; }
-    img { max-width: 100%; margin-top: 10px; border: 1px solid #ccc; display: block; }
-    .section { margin-bottom: 20px; }
-    #status { margin-top: 15px; font-weight: bold; }
+    img { max-width: 100%; margin-top: 10px; border: 2px solid #eee; border-radius: 5px; }
+    #status { margin-top: 15px; font-weight: bold; text-align: center; }
   </style>
 </head>
 <body>
   <h2>Form Pengajuan Bantuan BPJS Rawat Inap</h2>
-  <form id="bpjsForm">
-    <div class="section">
-      <label>Nama Pasien:<br/>
-        <input type="text" name="nama" required>
-      </label><br/>
+  <div class="container">
+    <form id="bpjsForm">
+      <div class="card">
+        <h3>Data Pasien</h3>
+        <label>Nama Pasien:<br/>
+          <input type="text" name="nama" required>
+        </label>
 
-      <label>NIK Pasien:<br/>
-        <input type="text" name="nik" required>
-      </label><br/>
+        <label>NIK Pasien:<br/>
+          <input type="text" name="nik" required>
+        </label>
 
-      <label>No. KK:<br/>
-        <input type="text" name="kk" required>
-      </label><br/>
+        <label>No. KK:<br/>
+          <input type="text" name="kk" required>
+        </label>
 
-      <label>No. Telepon Pasien:<br/>
-        <input type="text" name="telp" required>
-      </label><br/>
+        <label>No. Telepon Pasien:<br/>
+          <input type="text" name="telp" required>
+        </label>
 
-      <label>No. Telepon Keluarga:<br/>
-        <input type="text" name="telp_keluarga" required>
-      </label><br/>
+        <label>No. Telepon Keluarga:<br/>
+          <input type="text" name="telp_keluarga" required>
+        </label>
 
-      <label>Alamat:<br/>
-        <textarea name="alamat" required></textarea>
-      </label><br/>
-    </div>
+        <label>Alamat:<br/>
+          <textarea name="alamat" required></textarea>
+        </label>
+      </div>
 
-    <div class="section">
-      <label>Foto Surat Rawat Inap:<br/>
+      <div class="card">
+        <h3>Upload Dokumen</h3>
+
+        <label>Foto Surat Rawat Inap:</label>
         <input type="file" id="rawatInapInput" name="surat_rawat_inap" accept="image/*" capture="environment" required>
-      </label>
-      <img id="preview_rawat_inap" alt="Preview Surat Rawat Inap"/>
-    </div>
+        <img id="preview_rawat_inap" alt="Preview Surat Rawat Inap"/>
 
-    <div class="section">
-      <label>Foto KTP Pasien:<br/>
+        <label>Foto KTP Pasien:</label>
         <input type="file" id="ktpInput" name="ktp" accept="image/*" capture="environment" required>
-      </label>
-      <img id="preview_ktp" alt="Preview KTP"/>
-    </div>
+        <img id="preview_ktp" alt="Preview KTP"/>
 
-    <div class="section">
-      <label>Foto KK:<br/>
+        <label>Foto KK:</label>
         <input type="file" id="kkInput" name="kk_dokumen" accept="image/*" capture="environment" required>
-      </label>
-      <img id="preview_kk" alt="Preview KK"/>
-    </div>
+        <img id="preview_kk" alt="Preview KK"/>
 
-    <div class="section">
-      <label>Foto Surat Keterangan Tidak Mampu:<br/>
+        <label>Foto Surat Keterangan Tidak Mampu (SKTM):</label>
         <input type="file" id="sktmInput" name="sktm" accept="image/*" capture="environment" required>
-      </label>
-      <img id="preview_sktm" alt="Preview SKTM"/>
-    </div>
+        <img id="preview_sktm" alt="Preview SKTM"/>
+      </div>
 
-    <button type="submit">Kirim Pengajuan</button>
-  </form>
+      <button type="submit">Kirim Pengajuan</button>
+    </form>
 
-  <p id="status"></p>
+    <p id="status"></p>
+  </div>
 
   <script>
     function setupPreview(inputId, previewId) {
@@ -104,17 +102,17 @@
       const formData = new FormData(e.target);
 
       try {
-        // Ganti URL di bawah dengan URL Web App Google Apps Script
+        // Ganti dengan URL Web App Google Apps Script milikmu
         const response = await fetch("PASTE_WEB_APP_URL_HERE", {
           method: "POST",
           body: formData
         });
         if (response.ok) {
-          status.textContent = "Pengajuan berhasil dikirim.";
+          status.textContent = "Pengajuan berhasil dikirim ✅";
           e.target.reset();
           document.querySelectorAll("img").forEach(img => img.src = "");
         } else {
-          status.textContent = "Gagal mengirim data.";
+          status.textContent = "Gagal mengirim data ❌";
         }
       } catch (err) {
         status.textContent = "Error: " + err.message;
