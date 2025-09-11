@@ -1,161 +1,125 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Pengajuan Bantuan BPJS - URC RSUD Kab. Lebong</title>
-<link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
-<style>
-  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; max-width:900px; margin:18px auto; padding:0 16px; color:#222; }
-  h1{font-size:20px;margin-bottom:6px}
-  .card{background:#fff;border:1px solid #e6e6e6;padding:14px;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.03)}
-  label{display:block;margin-top:10px;font-weight:600;font-size:13px}
-  input[type="text"], textarea { width:100%; padding:10px; margin-top:6px; border-radius:6px; border:1px solid #ddd }
-  textarea{min-height:72px;resize:vertical}
-  .docs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px}
-  .doc-box{border:1px dashed #ccc;padding:8px;border-radius:8px;text-align:center;background:#fafafa}
-  .small{font-size:12px;color:#666}
-  button{background:#0b74de;color:#fff;padding:10px 14px;border-radius:8px;border:0;margin-top:12px;cursor:pointer}
-  button.secondary{background:#6c757d}
-  img.preview{max-width:100%;display:block;margin:8px auto;border-radius:6px;max-height:360px}
-  canvas{max-width:100%;display:block;margin-top:8px;border-radius:6px;border:1px solid #eee}
-  #status{margin-top:10px;font-weight:600}
-  .hint{font-size:12px;color:#666;margin-top:4px}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Form Pengajuan BPJS</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: 20px auto; }
+    input, textarea { width: 100%; margin: 8px 0; padding: 8px; }
+    button { padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer; }
+    button:hover { background: #218838; }
+    img { max-width: 100%; margin-top: 10px; border: 1px solid #ccc; display: block; }
+    .section { margin-bottom: 20px; }
+    #status { margin-top: 15px; font-weight: bold; }
+  </style>
 </head>
 <body>
-  <h1>Pengajuan Bantuan BPJS (URC RSUD Kab. Lebong)</h1>
-  <div class="card">
-    <form id="mainForm">
-      <label>Nama Pasien
-        <input type="text" name="nama" required />
-      </label>
+  <h2>Form Pengajuan Bantuan BPJS Rawat Inap</h2>
+  <form id="bpjsForm">
+    <div class="section">
+      <label>Nama Pasien:<br/>
+        <input type="text" name="nama" required>
+      </label><br/>
 
-      <label>NIK Pasien
-        <input type="text" name="nik" required />
-      </label>
+      <label>NIK Pasien:<br/>
+        <input type="text" name="nik" required>
+      </label><br/>
 
-      <label>No. KK
-        <input type="text" name="no_kk" required />
-      </label>
+      <label>No. KK:<br/>
+        <input type="text" name="kk" required>
+      </label><br/>
 
-      <label>No. Telepon Pasien
-        <input type="text" name="telp" required />
-      </label>
+      <label>No. Telepon Pasien:<br/>
+        <input type="text" name="telp" required>
+      </label><br/>
 
-      <label>No. Telepon keluarga
-        <input type="text" name="telp_keluarga" required />
-      </label>
+      <label>No. Telepon Keluarga:<br/>
+        <input type="text" name="telp_keluarga" required>
+      </label><br/>
 
-      <label>Alamat singkat
+      <label>Alamat:<br/>
         <textarea name="alamat" required></textarea>
+      </label><br/>
+    </div>
+
+    <div class="section">
+      <label>Foto Surat Rawat Inap:<br/>
+        <input type="file" id="rawatInapInput" name="surat_rawat_inap" accept="image/*" capture="environment" required>
       </label>
+      <img id="preview_rawat_inap" alt="Preview Surat Rawat Inap"/>
+    </div>
 
-      <p class="hint">Ambil foto dokumen dengan kamera. Setelah jepret, crop agar dokumen pas dalam frame lalu klik "Simpan Foto".</p>
+    <div class="section">
+      <label>Foto KTP Pasien:<br/>
+        <input type="file" id="ktpInput" name="ktp" accept="image/*" capture="environment" required>
+      </label>
+      <img id="preview_ktp" alt="Preview KTP"/>
+    </div>
 
-      <div class="docs-grid">
-        <div class="doc-box">
-          <div><strong>Surat Rawat Inap</strong></div>
-          <input type="file" accept="image/*" capture="environment" class="doc-input" data-key="surat_rawat" />
-          <div class="small">klik untuk buka kamera</div>
-          <img class="preview" id="preview-surat_rawat" style="display:none"/>
-          <canvas id="canvas-surat_rawat" style="display:none"></canvas>
-          <button type="button" class="btn-crop" data-key="surat_rawat">Crop / Simpan Foto</button>
-        </div>
+    <div class="section">
+      <label>Foto KK:<br/>
+        <input type="file" id="kkInput" name="kk_dokumen" accept="image/*" capture="environment" required>
+      </label>
+      <img id="preview_kk" alt="Preview KK"/>
+    </div>
 
-        <div class="doc-box">
-          <div><strong>KTP</strong></div>
-          <input type="file" accept="image/*" capture="environment" class="doc-input" data-key="ktp" />
-          <div class="small">klik untuk buka kamera</div>
-          <img class="preview" id="preview-ktp" style="display:none"/>
-          <canvas id="canvas-ktp" style="display:none"></canvas>
-          <button type="button" class="btn-crop" data-key="ktp">Crop / Simpan Foto</button>
-        </div>
+    <div class="section">
+      <label>Foto Surat Keterangan Tidak Mampu:<br/>
+        <input type="file" id="sktmInput" name="sktm" accept="image/*" capture="environment" required>
+      </label>
+      <img id="preview_sktm" alt="Preview SKTM"/>
+    </div>
 
-        <div class="doc-box">
-          <div><strong>KK</strong></div>
-          <input type="file" accept="image/*" capture="environment" class="doc-input" data-key="kk_doc" />
-          <div class="small">klik untuk buka kamera</div>
-          <img class="preview" id="preview-kk_doc" style="display:none"/>
-          <canvas id="canvas-kk_doc" style="display:none"></canvas>
-          <button type="button" class="btn-crop" data-key="kk_doc">Crop / Simpan Foto</button>
-        </div>
+    <button type="submit">Kirim Pengajuan</button>
+  </form>
 
-        <div class="doc-box">
-          <div><strong>Surat Keterangan Tidak Mampu</strong></div>
-          <input type="file" accept="image/*" capture="environment" class="doc-input" data-key="sktm" />
-          <div class="small">klik untuk buka kamera</div>
-          <img class="preview" id="preview-sktm" style="display:none"/>
-          <canvas id="canvas-sktm" style="display:none"></canvas>
-          <button type="button" class="btn-crop" data-key="sktm">Crop / Simpan Foto</button>
-        </div>
-      </div>
+  <p id="status"></p>
 
-      <div style="margin-top:12px">
-        <button id="submitBtn" type="submit">Kirim Pengajuan</button>
-        <button id="resetBtn" class="secondary" type="button">Reset Form</button>
-      </div>
-      <div id="status"></div>
-    </form>
-  </div>
-
-<script src="https://unpkg.com/cropperjs"></script>
-<script>
-/*
-  INSTRUKSI:
-  - Ganti WEB_APP_URL dengan URL Web App Google Apps Script kalian (lihat setup).
-  - Ganti SECRET_KEY dengan kunci sederhana yang sama di Apps Script.
-  - Tidak perlu mengerti detail: cukup isi, jepret, crop, klik "Simpan Foto" untuk tiap dokumen, lalu Submit.
-*/
-
-const WEB_APP_URL = "PASTE_YOUR_WEB_APP_URL_HERE"; // <-- ganti nanti
-const SECRET_KEY = "PASTE_A_SECRET_KEY_HERE";     // <-- ganti nanti (contoh: urcLebong2025)
-
-const maxWidth = 1200;  // ukuran maksimal sisi panjang gambar
-const jpegQuality = 0.80;
-
-const state = {
-  // akan menyimpan base64 hasil crop untuk tiap dokumen: surat_rawat, ktp, kk_doc, sktm
-};
-
-document.querySelectorAll('.doc-input').forEach(inp => {
-  inp.addEventListener('change', async (ev) => {
-    const key = inp.dataset.key;
-    const file = inp.files[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    const imgEl = document.getElementById('preview-' + key);
-    imgEl.src = url;
-    imgEl.style.display = 'block';
-    // siapkan cropper
-    if (imgEl._cropper) { imgEl._cropper.destroy(); imgEl._cropper = null; }
-    imgEl._cropper = new Cropper(imgEl, { viewMode:1, autoCropArea: 0.95 });
-    // tampilkan tombol crop; user harus klik Crop / Simpan Foto untuk menghasilkan data final
-  });
-});
-
-document.querySelectorAll('.btn-crop').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const key = btn.dataset.key;
-    const imgEl = document.getElementById('preview-' + key);
-    if (!imgEl || !imgEl._cropper) {
-      alert('Ambil foto dulu untuk ' + key);
-      return;
+  <script>
+    function setupPreview(inputId, previewId) {
+      const input = document.getElementById(inputId);
+      const preview = document.getElementById(previewId);
+      input.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          preview.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
     }
-    const canvas = imgEl._cropper.getCroppedCanvas({ maxWidth: maxWidth });
-    // tampilkan canvas preview
-    const canvasEl = document.getElementById('canvas-' + key);
-    canvasEl.style.display = 'block';
-    canvasEl.width = canvas.width;
-    canvasEl.height = canvas.height;
-    const ctx = canvasEl.getContext('2d');
-    ctx.clearRect(0,0,canvasEl.width,canvasEl.height);
-    ctx.drawImage(canvas, 0, 0);
-    // simpan base64 (warna asli)
-    state[key] = canvasEl.toDataURL('image/jpeg', jpegQuality);
-    // bersihkan cropper (opsional)
-    imgEl._cropper.destroy();
-    imgEl._cropper = null;
-    imgEl.style.display = 'none';
-    btn.textContent = 'Tersimpan ✔';
-    setTimeout(()=>{ btn.textContent = 'Crop / Simpan Fo
+
+    setupPreview("rawatInapInput", "preview_rawat_inap");
+    setupPreview("ktpInput", "preview_ktp");
+    setupPreview("kkInput", "preview_kk");
+    setupPreview("sktmInput", "preview_sktm");
+
+    document.getElementById("bpjsForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const status = document.getElementById("status");
+      status.textContent = "Mengirim data...";
+
+      const formData = new FormData(e.target);
+
+      try {
+        // Ganti URL di bawah dengan URL Web App Google Apps Script
+        const response = await fetch("PASTE_WEB_APP_URL_HERE", {
+          method: "POST",
+          body: formData
+        });
+        if (response.ok) {
+          status.textContent = "Pengajuan berhasil dikirim.";
+          e.target.reset();
+          document.querySelectorAll("img").forEach(img => img.src = "");
+        } else {
+          status.textContent = "Gagal mengirim data.";
+        }
+      } catch (err) {
+        status.textContent = "Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
