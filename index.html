@@ -51,16 +51,15 @@
     button:hover {
       background: #1a5fc1;
     }
-    .preview {
-      margin-top: 10px;
-      max-height: 150px;
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Form Pengajuan BPJS URC Bengkulu</h2>
-    <form id="bpjsForm">
+    
+    <!-- Form langsung submit ke Web App -->
+    <form action="https://script.google.com/macros/s/AKfycbxulq_XBGF4VTfpe6L_sucs27s7mjvM1zPMgoyi4TJmmjB7MlOVnt2KVh_bjVKEkntX/exec" method="post" enctype="multipart/form-data">
+      
       <label>Nama Pasien:</label>
       <input type="text" name="nama" required>
 
@@ -97,29 +96,6 @@
 
       <button type="submit">Kirim Pengajuan</button>
     </form>
-    <p id="status"></p>
   </div>
-
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxulq_XBGF4VTfpe6L_sucs27s7mjvM1zPMgoyi4TJmmjB7MlOVnt2KVh_bjVKEkntX/exec"; // ganti dengan URL Web App
-
-    const form = document.getElementById("bpjsForm");
-    const status = document.getElementById("status");
-
-    form.addEventListener("submit", e => {
-      e.preventDefault();
-      const formData = new FormData(form);
-
-      fetch(scriptURL, { method: "POST", body: formData })
-        .then(response => response.text())
-        .then(text => {
-          status.innerHTML = "<span style='color:green'>Berhasil dikirim!</span>";
-          form.reset();
-        })
-        .catch(error => {
-          status.innerHTML = "<span style='color:red'>Gagal: " + error + "</span>";
-        });
-    });
-  </script>
 </body>
 </html>
