@@ -2,100 +2,15 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Form Pengajuan BPJS URC Bengkulu</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    input[type="file"] {
-      padding: 5px;
-    }
-    button {
-      background: #2c7be5;
-      color: #fff;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 20px;
-      width: 100%;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #1a5fc1;
-    }
-  </style>
+  <title>Test Upload File</title>
 </head>
 <body>
-  <div class="container">
-    <h2>Form Pengajuan BPJS URC Bengkulu</h2>
-    
-    <!-- Form langsung submit ke Web App -->
-    <form action="https://script.google.com/macros/s/AKfycbxulq_XBGF4VTfpe6L_sucs27s7mjvM1zPMgoyi4TJmmjB7MlOVnt2KVh_bjVKEkntX/exec" method="post" enctype="multipart/form-data">
-      
-      <label>Nama Pasien:</label>
-      <input type="text" name="nama" required>
-
-      <label>NIK (16 digit):</label>
-      <input type="text" name="nik" pattern="[0-9]{16}" maxlength="16"
-             oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
-
-      <label>No. KK (16 digit):</label>
-      <input type="text" name="kk" pattern="[0-9]{16}" maxlength="16"
-             oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
-
-      <label>Nomor HP yang bisa dihubungi:</label>
-      <input type="text" name="telp" pattern="[0-9]{10,13}" maxlength="13"
-             oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
-
-      <label>Nomor HP keluarga yang bisa dihubungi:</label>
-      <input type="text" name="telp_keluarga" pattern="[0-9]{10,13}" maxlength="13"
-             oninput="this.value=this.value.replace(/[^0-9]/g,'')" required>
-
-      <label>Alamat:</label>
-      <textarea name="alamat" rows="3" required></textarea>
-
-      <label>Upload Surat Rawat Inap:</label>
-      <input type="file" name="surat_rawat_inap" accept="image/*,application/pdf" required>
-
-      <label>Upload KTP Pasien:</label>
-      <input type="file" name="ktp" accept="image/*,application/pdf" required>
-
-      <label>Upload Kartu Keluarga:</label>
-      <input type="file" name="kk_dokumen" accept="image/*,application/pdf" required>
-
-      <label>Upload Surat Keterangan Tidak Mampu:</label>
-      <input type="file" name="sktm" accept="image/*,application/pdf" required>
-
-      <button type="submit">Kirim Pengajuan</button>
-    </form>
-  </div>
+  <h2>Test Upload File ke Google Drive</h2>
+  <form action="PASTE_URL_WEB_APP" method="post" enctype="multipart/form-data">
+    <label>Upload Dokumen:</label><br>
+    <input type="file" name="dokumen" required>
+    <br><br>
+    <button type="submit">Kirim</button>
+  </form>
 </body>
 </html>
