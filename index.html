@@ -13,6 +13,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
     .card {
       border-radius: 15px;
@@ -25,7 +26,7 @@
 </head>
 <body>
 
-<!-- Login Box -->
+<!-- LOGIN -->
 <div class="card p-4 w-100" style="max-width:400px;" id="loginBox">
   <h4 class="text-center mb-3">Login URC</h4>
   <div class="mb-3">
@@ -36,7 +37,7 @@
   <p id="loginError" class="text-danger mt-2"></p>
 </div>
 
-<!-- Form Box -->
+<!-- FORM -->
 <div class="container hidden" id="formBox">
   <div class="card p-4">
     <h4 class="mb-3 text-center">Form URC Bantu Rakyat</h4>
@@ -54,12 +55,14 @@
 
       <div class="mb-3">
         <label class="form-label">NIK</label>
-        <input type="text" name="nik" class="form-control" required maxlength="16" minlength="16" pattern="\\d{16}" placeholder="16 digit angka">
+        <input type="text" name="nik" class="form-control" required maxlength="16" minlength="16" pattern="[0-9]{16}" placeholder="16 digit angka">
+        <div class="form-text text-danger">Harus 16 digit angka.</div>
       </div>
 
       <div class="mb-3">
         <label class="form-label">No HP</label>
-        <input type="tel" name="hp" class="form-control" required pattern="0\\d+" placeholder="Contoh: 081234567890">
+        <input type="tel" name="hp" class="form-control" required pattern="0[0-9]+" placeholder="Contoh: 081234567890">
+        <div class="form-text text-danger">Harus diawali 0.</div>
       </div>
 
       <div class="mb-3">
@@ -87,19 +90,17 @@
         <input type="text" name="ket" class="form-control">
       </div>
 
-      <button type="submit" id="submitBtn" class="btn btn-success w-100">
-        Kirim
-      </button>
+      <button type="submit" id="submitBtn" class="btn btn-success w-100">Kirim</button>
     </form>
   </div>
 </div>
 
 <script>
-  // LOGIN
+  // ==== LOGIN ====
   function checkLogin() {
     const pass = document.getElementById("loginPass").value;
     const error = document.getElementById("loginError");
-    if (pass === "Lemari") {
+    if(pass === "Lemari") {
       document.getElementById("loginBox").classList.add("hidden");
       document.getElementById("formBox").classList.remove("hidden");
     } else {
@@ -107,18 +108,33 @@
     }
   }
 
-  // FORM
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwp9e8G8dqTM_KuL9ylVMAn-QTdPFfOoVf5JvVXOc19vxCo5mITmf8IPf3DxjhqOLDazg/exec"; // Ganti dengan URL Web App Apps Script
+  // ==== FORM SUBMIT ====
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwp9e8G8dqTM_KuL9ylVMAn-QTdPFfOoVf5JvVXOc19vxCo5mITmf8IPf3DxjhqOLDazg/exec"; // Ganti dengan URL Web App dari Apps Script
   const form = document.getElementById("urcForm");
   const btn = document.getElementById("submitBtn");
 
   form.addEventListener("submit", e => {
     e.preventDefault();
 
+    // Ambil dan validasi NIK & HP
+    const nik = form.nik.value.trim();
+    const hp = form.hp.value.trim();
+
+    if(!/^[0-9]{16}$/.test(nik)) {
+      alert("NIK harus 16 digit angka tanpa spasi.");
+      return;
+    }
+
+    if(!/^0[0-9]+$/.test(hp)) {
+      alert("Nomor HP harus diawali 0.");
+      return;
+    }
+
+    // Tombol loading
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mengirim...';
 
-    fetch(scriptURL, { method: "POST", body: new FormData(form)})
+    fetch(scriptURL, { method: 'POST', body: new FormData(form) })
       .then(response => {
         alert("Data berhasil dikirim!");
         form.reset();
