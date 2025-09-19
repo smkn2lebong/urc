@@ -2,15 +2,136 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Test Upload File</title>
+  <title>URC Bantu Rakyat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-  <h2>Test Upload File ke Google Drive</h2>
-  <form action="https://script.google.com/macros/s/AKfycbymGN7uaguFjdbFo784i11um3bFogZE7u0SXgsFp-al37g9dYb__zLVJ_tRkc2_pOqu/exec" method="post" enctype="multipart/form-data">
-    <label>Upload Dokumen:</label><br>
-    <input type="file" name="dokumen" required>
-    <br><br>
-    <button type="submit">Kirim</button>
-  </form>
+
+<!-- Login Box -->
+<div class="card p-4 w-100" style="max-width:400px;" id="loginBox">
+  <h4 class="text-center mb-3">Login URC</h4>
+  <div class="mb-3">
+    <label class="form-label">Password</label>
+    <input type="password" id="loginPass" class="form-control" placeholder="Masukkan password">
+  </div>
+  <button class="btn btn-primary w-100" onclick="checkLogin()">Masuk</button>
+  <p id="loginError" class="text-danger mt-2"></p>
+</div>
+
+<!-- Form Box -->
+<div class="container hidden" id="formBox">
+  <div class="card p-4">
+    <h4 class="mb-3 text-center">Form URC Bantu Rakyat</h4>
+    <form id="urcForm">
+
+      <div class="mb-3">
+        <label class="form-label">Hari/Tanggal</label>
+        <input type="date" name="tanggal" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Nama</label>
+        <input type="text" name="nama" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">NIK</label>
+        <input type="text" name="nik" class="form-control" required maxlength="16" minlength="16" pattern="\\d{16}" placeholder="16 digit angka">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">No HP</label>
+        <input type="tel" name="hp" class="form-control" required pattern="0\\d+" placeholder="Contoh: 081234567890">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Alamat</label>
+        <textarea name="alamat" class="form-control" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Keluhan</label>
+        <textarea name="keluhan" class="form-control" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Informasi & Edukasi</label>
+        <input type="text" name="info" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Aktifasi</label>
+        <input type="text" name="aktifasi" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Keterangan (Opsional)</label>
+        <input type="text" name="ket" class="form-control">
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn btn-success w-100">
+        Kirim
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // LOGIN
+  function checkLogin() {
+    const pass = document.getElementById("loginPass").value;
+    const error = document.getElementById("loginError");
+    if (pass === "Lemari") {
+      document.getElementById("loginBox").classList.add("hidden");
+      document.getElementById("formBox").classList.remove("hidden");
+    } else {
+      error.textContent = "Password salah!";
+    }
+  }
+
+  // FORM
+  const scriptURL = "https://script.google.com/macros/s/AKfycbwp9e8G8dqTM_KuL9ylVMAn-QTdPFfOoVf5JvVXOc19vxCo5mITmf8IPf3DxjhqOLDazg/exec"; // Ganti dengan URL Web App Apps Script
+  const form = document.getElementById("urcForm");
+  const btn = document.getElementById("submitBtn");
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Mengirim...';
+
+    fetch(scriptURL, { method: "POST", body: new FormData(form)})
+      .then(response => {
+        alert("Data berhasil dikirim!");
+        form.reset();
+      })
+      .catch(error => {
+        alert("Gagal mengirim data: " + error.message);
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = "Kirim";
+      });
+  });
+</script>
+
 </body>
 </html>
