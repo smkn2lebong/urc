@@ -22,13 +22,22 @@
     .hidden {
       display: none;
     }
+    /* Login input lebih tinggi dan lebar */
+    #loginBox input {
+      height: 50px;
+      font-size: 1.1rem;
+    }
+    #loginBox button {
+      height: 50px;
+      font-size: 1.1rem;
+    }
   </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div class="card p-4 w-100" style="max-width:400px;" id="loginBox">
-  <h4 class="text-center mb-3">Login URC</h4>
+  <h4 class="text-center mb-4">Login URC</h4>
   <div class="mb-3">
     <label class="form-label">Password</label>
     <input type="password" id="loginPass" class="form-control" placeholder="Masukkan password">
@@ -55,7 +64,7 @@
 
       <div class="mb-3">
         <label class="form-label">NIK</label>
-        <input type="text" name="nik" class="form-control" required maxlength="16" minlength="16" pattern="[0-9]{16}" placeholder="16 digit angka">
+        <input type="text" name="nik" class="form-control" required maxlength="16" minlength="16" pattern="[0-9]{16}" placeholder="16 digit angka" inputmode="numeric">
         <div class="form-text text-danger">Harus 16 digit angka.</div>
       </div>
 
@@ -116,10 +125,10 @@
   form.addEventListener("submit", e => {
     e.preventDefault();
 
-    // Ambil dan validasi NIK & HP
     const nik = form.nik.value.trim();
     const hp = form.hp.value.trim();
 
+    // Validasi NIK & HP
     if(!/^[0-9]{16}$/.test(nik)) {
       alert("NIK harus 16 digit angka tanpa spasi.");
       return;
